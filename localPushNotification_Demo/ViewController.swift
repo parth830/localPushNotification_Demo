@@ -10,16 +10,23 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var timeTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        //MARK: Request user permission for push notification
+        LocalPushManager.shared.requestAuthorization()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func startTimerButtonTapped(_ sender: UIButton) {
+        
+        //MARK: Setup the push notification
+        guard let timerText = timeTextField.text else { return }
+        guard let time = TimeInterval(timerText) else { return }
+        
+        LocalPushManager.shared.sendNotification(in: time)
     }
-
-
+    
 }
 
